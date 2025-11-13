@@ -214,9 +214,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Parth Patel**
 - 🎓 MS in Data Analytics & Information Systems (Applied AI) - Texas State University
 - 💼 Former Senior Financial Advisor at Scotiabank
-- 🔗 [LinkedIn](https://www.linkedin.com/in/yourprofile)
-- 📧 [Email](mailto:your.email@example.com)
-- 🌐 [Portfolio](https://yourportfolio.com)
+- 🔗 [LinkedIn]([(https://www.linkedin.com/in/parth-patel-03800917a/))
+- 📧 [Email](mailto:patelparth5709@gmail.com)
 
 ---
 
@@ -233,7 +232,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For questions, feedback, or collaboration opportunities:
 - Open an issue on GitHub
 - Connect with me on LinkedIn
-- Email: your.email@example.com
+- Email: patelparth5709@gmail.com
 
 ---
 
