@@ -59,8 +59,7 @@ By leveraging K-Means clustering on RFM metrics, this analysis segments customer
 ├── requirements.txt               # Python dependencies
 ├── .gitignore                     # Git ignore file
 ├── LICENSE                        # MIT License
-└── data/                          # Data directory (not included)
-    └── online_retail.xlsx         # Original dataset
+└── online_retail.xlsx             # Original dataset
 ```
 
 ---
