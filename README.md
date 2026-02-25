@@ -230,7 +230,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions, feedback, or collaboration opportunities:
 - Open an issue on GitHub
-- Connect with me on LinkedIn
+- Connect with me on LinkedIn https://www.linkedin.com/in/parth-patel-03800917a/
 - Email: patelparth5709@gmail.com
 
 ---
