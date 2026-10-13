@@ -1,238 +1,75 @@
-# 🛍️ E-Commerce Customer Segmentation & Retention Strategy
+# E-Commerce Customer Segmentation and Retention Strategy
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange.svg)](https://jupyter.org/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-A data-driven customer segmentation project using **RFM (Recency, Frequency, Monetary) analysis** and **unsupervised machine learning** to identify high-value customer groups, optimize marketing spend, and drive revenue growth.
+Customer segmentation of a UK online retailer using RFM (Recency, Frequency, Monetary) and behavioral features, with K-Means, hierarchical clustering, and DBSCAN compared. The final five-segment model is translated into retention and growth recommendations with explicit, assumption-based revenue scenarios.
 
----
+## Key Findings
 
-## 📊 Project Overview
+| Segment | Customers | Recency (days) | Orders | Avg spend | Revenue share |
+|---|---|---|---|---|---|
+| Loyal core | 1,431 | 34 | 7.4 | $1,980 | 65.9% |
+| New customers | 1,476 | 47 | 2.0 | $481 | 16.5% |
+| Lapsed | 930 | 250 | 1.6 | $316 | 6.8% |
+| Occasional bulk buyers | 350 | 92 | 3.3 | $773 | 6.3% |
+| Key accounts | 5 | 1 | 136.8 | $38,357 | 4.5% |
 
-This project addresses key business challenges faced by online retail companies:
-- **Declining customer retention rates**
-- **Inefficient marketing budget allocation**
-- **Inability to identify high-value customer segments**
-- **Lack of personalized customer experiences**
+- A third of customers generate two thirds of revenue. Retaining the loyal core is the highest priority.
+- New customers are the largest segment by count but average only two orders. Converting them into repeat buyers is the largest growth lever: moving 10% of them to loyal-core spend levels would add roughly $220K annually.
+- Five wholesale-scale accounts average $38K each; each carries the revenue of about 80 new customers and warrants account management.
 
-By leveraging K-Means clustering on RFM metrics, this analysis segments customers into distinct behavioral groups, enabling targeted retention strategies and data-driven business decisions.
+Revenue figures are scenario estimates under stated assumptions (see the notebook) and would need validation through controlled experiments.
 
----
+## Approach
 
-## 💼 Business Impact
+1. **Cleaning.** Removed cancelled and adjustment invoices, rows without `CustomerID`, IQR outliers in quantity and unit price, and duplicate rows.
+2. **Feature engineering.** Recency (days before the last invoice date in the data), Frequency (distinct invoices), Monetary (total spend), plus average basket size, average quantity, and customer tenure.
+3. **Scaling.** `StandardScaler` so that each feature contributes equally to distance.
+4. **Clustering.**
+   - K-Means for k = 2 to 10, evaluated with the elbow method and silhouette score. k = 5 had the highest silhouette score (0.305).
+   - Hierarchical clustering (Ward linkage) to cross-check the five-cluster structure.
+   - DBSCAN, which mainly isolated outliers and did not improve on K-Means.
+5. **Profiling.** Cluster means, revenue share, and segment-specific actions.
 
-### Key Results
-- **66% of revenue** comes from a single high-value cluster (Cluster 4)
-- Identified **VIP customers** with $38K average spend requiring dedicated management
-- **Potential annual revenue gain: $550K–$600K** (8-10% uplift) through targeted strategies
-- **80/20 dynamic confirmed**: Top 30% of customers drive nearly 80% of revenue
-
-### Strategic Opportunities
-
-| Strategy | Target Segment | Est. Revenue Gain | Growth Potential |
-|----------|----------------|-------------------|------------------|
-| **Retain Top Buyers** | Cluster 4 | +$150K | +5% retention → +$150K revenue |
-| **Upsell Mid-Tier** | Cluster 3 | +$90K | 10-15% conversion to high-spend |
-| **Reactivate Dormant** | Clusters 0 & 1 | +$220K | $100 uplift per customer |
-| **Protect VIPs** | Cluster 2 | +$100K | Dedicated account management |
-| **Total Potential** | — | **$550K–$600K** | **8-10% overall uplift** |
-
----
-
-## 🎯 Key Features
-
-- **RFM Analysis**: Recency, Frequency, and Monetary value metrics for customer behavior
-- **Multiple Clustering Algorithms**: K-Means, Hierarchical Clustering, DBSCAN
-- **Elbow Method**: Optimal cluster determination using inertia analysis
-- **Business Insights**: Revenue share analysis and actionable recommendations
-- **Data Visualization**: Comprehensive charts and cluster distributions
-- **Financial Modeling**: Quantified business impact and ROI projections
-
----
-
-## 📁 Project Structure
+## Repository Structure
 
 ```
-├── Clustering__1_.ipynb          # Main analysis notebook
-├── README.md                      # Project documentation
-├── requirements.txt               # Python dependencies
-├── .gitignore                     # Git ignore file
-├── LICENSE                        # MIT License
-└── online_retail.xlsx             # Original dataset
+├── notebooks/
+│   └── customer_segmentation_rfm.ipynb   # Full analysis
+├── data/
+│   └── README.md                         # Dataset download instructions
+├── requirements.txt
+└── LICENSE
 ```
 
----
+## Getting Started
 
-## 🚀 Getting Started
+```bash
+git clone https://github.com/Patelparth2109/E-Commerce-Customer-Segmentation-Retention-Strategy.git
+cd E-Commerce-Customer-Segmentation-Retention-Strategy
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+```
 
-### Prerequisites
-- Python 3.8 or higher
-- Jupyter Notebook or JupyterLab
-- Basic understanding of clustering algorithms and data analysis
+Download the dataset as described in [data/README.md](data/README.md), then open `notebooks/customer_segmentation_rfm.ipynb`.
 
-### Installation
+## Tech Stack
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/customer-segmentation.git
-   cd customer-segmentation
-   ```
+Python, pandas, NumPy, scikit-learn (K-Means, DBSCAN, silhouette analysis), SciPy (hierarchical clustering), Matplotlib, Seaborn
 
-2. **Create a virtual environment** (recommended)
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+## Future Work
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+- Validate segment strategies with A/B tests, starting with a second-purchase campaign for new customers
+- Add predictive customer lifetime value modeling
+- Schedule periodic re-segmentation to track customer movement between segments
 
-4. **Download the dataset**
-   - Dataset: [UCI Machine Learning Repository - Online Retail Dataset](https://archive.ics.uci.edu/ml/datasets/online+retail)
-   - Place the `online_retail.xlsx` file in the `data/` directory
+## License
 
-5. **Launch Jupyter Notebook**
-   ```bash
-   jupyter notebook Clustering__1_.ipynb
-   ```
+Released under the [MIT License](LICENSE).
 
----
+## Author
 
-## 📚 Methodology
+Parth Patel · [LinkedIn](https://www.linkedin.com/in/parth-patel-03800917a/)
 
-### 1. Data Preprocessing
-- Handled missing values in `CustomerID` field
-- Removed cancelled transactions (negative quantities)
-- Created total purchase amount feature
-- Filtered dataset to relevant date range (2010-2011)
-
-### 2. RFM Feature Engineering
-- **Recency**: Days since last purchase (from reference date: Dec 31, 2011)
-- **Frequency**: Total number of transactions per customer
-- **Monetary**: Total revenue generated per customer
-
-### 3. Data Scaling
-- Applied `StandardScaler` for feature normalization
-- Ensures equal weight to all RFM dimensions in clustering
-
-### 4. Clustering Analysis
-- **K-Means**: Primary algorithm with 5 optimal clusters (Elbow Method)
-- **Hierarchical Clustering**: Dendrogram analysis for cluster validation
-- **DBSCAN**: Density-based outlier detection
-
-### 5. Business Intelligence
-- Revenue share calculation by cluster
-- Customer behavior profiling
-- Strategic action recommendations per segment
-
----
-
-## 📈 Technologies Used
-
-- **Python 3.12**: Core programming language
-- **Pandas**: Data manipulation and analysis
-- **NumPy**: Numerical computations
-- **Scikit-learn**: Machine learning algorithms (K-Means, DBSCAN, StandardScaler)
-- **SciPy**: Hierarchical clustering and dendrogram visualization
-- **Matplotlib & Seaborn**: Data visualization
-- **Jupyter Notebook**: Interactive development environment
-
----
-
-## 🔍 Key Insights
-
-### Cluster Profiles
-
-**Cluster 4 - Core Profit Drivers (66% revenue)**
-- Largest customer segment
-- Moderate-to-high frequency and monetary value
-- **Action**: Implement loyalty programs, exclusive launches, personalized upsells
-
-**Cluster 3 - Mid-Tier Growth Potential (17% revenue)**
-- Medium frequency and spending
-- High ROI opportunity for upselling
-- **Action**: Targeted email campaigns, product bundles, cross-category promotions
-
-**Cluster 2 - VIP/Enterprise Clients (<1% of customers, extremely high value)**
-- Average spend: $38K per customer
-- Critical for revenue stability
-- **Action**: Dedicated account management, concierge service, long-term contracts
-
-**Clusters 0 & 1 - Dormant/Low Engagement (13% revenue)**
-- Low frequency and monetary value
-- ~2,200 customers with reactivation potential
-- **Action**: Win-back campaigns, referral bonuses, personalized discounts
-
----
-
-## 📊 Sample Visualizations
-
-The notebook includes:
-- Elbow curve for optimal cluster selection
-- Revenue distribution by cluster (bar charts)
-- RFM score distributions
-- Cluster characteristics heatmaps
-- Customer count per segment
-
----
-
-## 🎓 Learning Outcomes
-
-This project demonstrates proficiency in:
-- **Unsupervised Machine Learning**: K-Means, Hierarchical, DBSCAN clustering
-- **Feature Engineering**: RFM metric calculation and business logic
-- **Data Preprocessing**: Handling missing data, outliers, and scaling
-- **Business Analytics**: Translating ML results into actionable insights
-- **Financial Modeling**: Revenue forecasting and ROI estimation
-- **Data Visualization**: Creating compelling business intelligence dashboards
-
----
-
-## 🛠️ Future Enhancements
-
-- [ ] Deploy interactive dashboard using Streamlit or Dash
-- [ ] Implement automated customer scoring API
-- [ ] Add time-series analysis for churn prediction
-- [ ] Integrate predictive CLV (Customer Lifetime Value) modeling
-- [ ] Build recommendation engine for personalized marketing
-- [ ] Add A/B testing framework for strategy validation
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👤 Author
-
-**Parth Patel**
-- 🎓 MS in Data Analytics & Information Systems (Applied AI) - Texas State University
-- 💼 Former Senior Financial Advisor at Scotiabank
-- 🔗 [LinkedIn]([(https://www.linkedin.com/in/parth-patel-03800917a/))
-- 📧 [Email](mailto:patelparth5709@gmail.com)
-
----
-
-## 🙏 Acknowledgments
-
-- Dataset provided by [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php)
-- Inspired by real-world e-commerce retention challenges
-- Built as part of a comprehensive data science portfolio
-
----
-
-## 📞 Contact
-
-For questions, feedback, or collaboration opportunities:
-- Open an issue on GitHub
-- Connect with me on LinkedIn https://www.linkedin.com/in/parth-patel-03800917a/
-- Email: patelparth5709@gmail.com
-
----
-
-**⭐ If you found this project helpful, please consider giving it a star!**
+Dataset: Chen, D. (2015). *Online Retail* [Dataset]. UCI Machine Learning Repository.
